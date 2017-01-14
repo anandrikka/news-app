@@ -12,6 +12,12 @@ var firebase = require('./server/firebase/firebase-initialize');
 //     firebaseDataService.loadNewArticles();
 // });
 
-app.listen(3000, function () {
+app.use('/public', express.static(__dirname + '/client/public'));
+
+app.get('*', function (req, res) {
+    res.sendFile(__dirname + '/client/index.html'); 
+});
+
+app.listen(process.env.PORT || 3000, function () {
     console.log('app starting listening on ', 3000); 
 });
