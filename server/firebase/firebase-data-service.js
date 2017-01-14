@@ -3,11 +3,11 @@
 var axios = require('axios'),
     Immutable = require('immutable'),
     firebase = require('./firebase-initialize'),
-    db = firebase.database(),
     newsApi = require('../../config/news-api'),
     utilites = require('../utilities'),
     baseUrl = newsApi.baseUrl,
-    apiKey = process.env.newsApiKey || newsApi.apiKey,
+    apiKey = newsApi.apiKey,
+    db = firebase.database(),
     articlesRef = db.ref('/articles'),
     sourcesRef = db.ref('/sources'),
     categoriesRef = db.ref('/categories');
@@ -73,7 +73,6 @@ var deleteOldArticles = function () {
                 if (moment(articleDate).isBefore(date)) {
                     articlesRef.child('/' + articleSnapShot.key).remove();
                 }
-                //articlesRef.child('/' + articleSnapShot.key).remove();
             }
         });
     })
