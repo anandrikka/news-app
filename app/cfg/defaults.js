@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const srcPath = path.join(__dirname, '/../src'); //source path of bundle files
+const srcPath = path.join(__dirname, '/../../app'); //source path of bundle files
 const defaultPort = 8000;
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin'); //Combines all scss files into a single css file
@@ -45,7 +45,7 @@ function defaultModules() {
                 loader: 'react-hot!babel-loader',
                 include: [].concat(
                     additionalPaths,
-                    [ path.join(__dirname, '/../src') ]
+                    [ srcPath ]
                 )
             }
         ]

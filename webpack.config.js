@@ -26,7 +26,7 @@ process.env.REACT_WEBPACK_ENV = env;
 function buildConfig(wantedEnv) {
   const isValid = wantedEnv && wantedEnv.length > 0 && allowedEnvs.indexOf(wantedEnv) !== -1;
   const validEnv = isValid ? wantedEnv : 'dev';
-  const configPath = path.join(__dirname, 'client/cfg/' + validEnv);
+  const configPath = path.join(__dirname, 'app/cfg/' + validEnv);
   const config = require(configPath);
   return config;
 }

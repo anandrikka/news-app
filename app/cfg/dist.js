@@ -7,7 +7,7 @@ const baseConfig = require('./base');
 const defaultSettings = require('./defaults');
 
 let config = Object.assign({}, baseConfig, {
-  entry: path.join(__dirname, '../src/app'),
+  entry: path.join(__dirname, '../app'),
   cache: false,
   devtool: 'sourcemap',
   plugins: [

@@ -6,7 +6,7 @@ const baseConfig = require('./base');
 const defaultSettings = require('./defaults');
 
 const devServerConfig = {
-    contentBase: './client/src/',
+    contentBase: './app/',
     publicPath: '/public/dist/'
     //historyApiFallback: true,
     //hot: true,
@@ -19,7 +19,7 @@ const config = Object.assign({}, baseConfig, {
     entry: [
         'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
         'webpack/hot/only-dev-server',
-        path.join(__dirname, '../src/app')
+        path.join(__dirname, '../app')
     ],
     devServer: devServerConfig,
     cache: true,
