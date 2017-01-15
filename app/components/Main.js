@@ -5,7 +5,7 @@ import config from 'config';
 class AppComponent extends React.Component {
   render() {
     return (
-      <div>Main Component !</div>
+      <div>Main Component</div>
     );
   }
 }
