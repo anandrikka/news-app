@@ -15,7 +15,7 @@ var firebase = require('./server/firebase/firebase-initialize');
 app.use('/public', express.static(__dirname + '/client/public'));
 
 app.get('*', function (req, res) {
-    res.sendFile(__dirname + '/client/index.html'); 
+    res.sendFile(__dirname + '/client/public/index.html');
 });
 
 app.listen(process.env.PORT || 3000, function () {

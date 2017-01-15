@@ -3,7 +3,7 @@
 var axios = require('axios'),
     Immutable = require('immutable'),
     firebase = require('./firebase-initialize'),
-    newsApi = require('../../config/news-api'),
+    newsApi = require('../config/news-api'),
     utilites = require('../utilities'),
     baseUrl = newsApi.baseUrl,
     apiKey = newsApi.apiKey,
