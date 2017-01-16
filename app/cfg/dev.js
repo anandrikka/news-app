@@ -5,9 +5,11 @@ const webpack = require('webpack');
 const baseConfig = require('./base');
 const defaultSettings = require('./defaults');
 
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 const devServerConfig = {
     contentBase: './app/',
-    publicPath: '/public/dist/'
+    publicPath: defaultSettings.publicPath
     //historyApiFallback: true,
     //hot: true,
     //port: defaultSettings.port,
@@ -27,6 +29,7 @@ const config = Object.assign({}, baseConfig, {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
+        new ExtractTextPlugin('./styles/main.css')
     ],
     module: defaultSettings.getDefaultModules()
 });

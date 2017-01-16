@@ -26,19 +26,27 @@ function defaultModules() {
         loaders: [
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                loader: 'css-loader'
             },
             {
                 test: /\.scss/,
-                loader: ExtractTextPlugin.extract('style-loader!css-loader!sass-loader')
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader')
+            },
+            // {
+            //     test: /\.(png|jpg|gif|woff|woff2|ttf)$/,
+            //     loader: 'url-loader?limit=1&name=assets/images/[name].[ext]'
+            // },
+            {
+                test: /\.(png|jpg|gif)$/,
+                loader: 'file-loader?name=assets/images/[name].[ext]'
             },
             {
-                test: /\.(png|jpg|gif|woff|woff2|ttf)$/,
-                loader: 'url-loader?limit=4096'
+                test: /\.(woff|woff2|eot|ttf)$/,
+                loader: 'file-loader?name=assets/fonts/[name].[ext]'
             },
             {
                 test: /\.(mp4|ogg|svg)$/,
-                loader: 'file-loader'
+                loader: 'file-loader?name=assets/data/[name].[ext]'
             },
             {
                 test: /\.(js|jsx)$/,
@@ -55,7 +63,7 @@ function defaultModules() {
 module.exports = {
     srcPath: srcPath,
     port: defaultPort,
-    publicPath: '/public/dist/', //logical path served by server
+    publicPath: '/public/', //logical path served by server
     getDefaultModules: defaultModules,
     additionalPaths: additionalPaths
 };

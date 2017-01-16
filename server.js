@@ -13,6 +13,7 @@ var firebase = require('./server/firebase/firebase-initialize');
 // });
 
 app.use('/public', express.static(__dirname + '/public'));
+//app.use('/assets', express.static(__dirname + '/public/assets'));
 
 app.get('*', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');

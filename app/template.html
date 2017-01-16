@@ -2,23 +2,21 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>News App</title>
+  <title><%= htmlWebpackPlugin.options.title %></title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link href="/public/assets/styles/materialize.css" rel="stylesheet">
-   
-    <link href="/public/assets/styles/main.38bf64a69e7e0e902612.css" rel="stylesheet">
-  
+   <% for (var css in htmlWebpackPlugin.files.css) { %>
+    <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
+  <% } %>
 </head>
 <body>
   <div id="app">
       APPLICATION CONTENT
   </div>
-  
-    <script type="text/javascript" src="/public/libs.38bf64a69e7e0e902612.js"></script>
-  
-    <script type="text/javascript" src="/public/app.38bf64a69e7e0e902612.js"></script>
-  
+  <% for (var js in htmlWebpackPlugin.files.js) { %>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[js] %>"></script>
+  <% } %>
 </body>
 </html>
