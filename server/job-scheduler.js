@@ -30,48 +30,43 @@ var CronJob = require('cron').CronJob;
 
 */
 var firebaseDataServices = require('./firebase/firebase-data-service');
-var timezone = 'Asia/Kolkata'
+var countriesRef = firebaseDataServices.countriesRef;
 
-/**
- * Job to load new articles - runs for every 30min
- */
-var loadNewArticles = new CronJob({
-    cronTime: '0 */30 * * * *',
-    onTick: function () {
-        console.log('Job triggered to fetch new articles');
-        firebaseDataServices.loadNewArticles();
-    },
-    start: false,
-    timeZone: timezone
+countriesRef.once('value').then(function (countriesSnapshot) {
+    var countries = countriesSnapshot.val();
+    var totalCountries = countries.length;
+    var newArticleJobs = [];
+    var cleanupJobs = [];
+    for (var i = 0; i < totalCountries; i++) {
+        (function (country) {
+            var country = countries[i];
+            var newArticleJob = new CronJob({
+                cronTime: '0 */25 * * * *',
+                onTick: function () {
+                    console.log('Job triggered to fetch new articles for timezone: ' + country.name);
+                    firebaseDataServices.loadArticlesByCountry(country.code);
+                },
+                start: false,
+                timeZone: country.tz
+            });
+            newArticleJobs.push(newArticleJob);
+            var cleanupJob = new CronJob({
+                cronTime: '00 00 00 * * *',
+                onTick: function () {
+                    console.log('Job triggered to delete old articles for timezone: ' + country.name);
+                    firebaseDataServices.deleteOldArticlesByTimezone(country.tz);
+                },
+                start: false,
+                timeZone: country.tz
+            });
+            cleanupJobs.push(cleanupJob);
+        })(countries[i]);
+    }
+    for (var i = 0; i < totalCountries; i++) {
+        newArticleJobs[i].start();
+        cleanupJobs[i].start();
+    }
 });
-
-
-/**
- * Job to clean up old articles - run at mid night every day
- */
-var cleanUpJob = new CronJob({
-    cronTime: '00 00 00 * * *',
-    onTick: function () {
-        console.log('Job triggered to delete old articles at mid-night');
-        firebaseDataServices.deleteOldArticles();
-    },
-    start: false,
-    timeZone: timezone
-});
-
-loadNewArticles.start();
-cleanUpJob.start();
-
-
-var test = new CronJob({
-    cronTime: '0-59 * * * * *',
-    onTick: function () {
-        console.log('Job triggered every second');
-    },
-    start: false,
-    timeZone: timezone
-});
-//test.start();
 
 
 
