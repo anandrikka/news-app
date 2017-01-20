@@ -9,7 +9,10 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const devServerConfig = {
     contentBase: './app/',
-    publicPath: defaultSettings.publicPath
+    publicPath: defaultSettings.publicPath,
+    proxy: {
+        '/api/*': 'http://localhost:3000'
+    }
     //historyApiFallback: true,
     //hot: true,
     //port: defaultSettings.port,
@@ -25,7 +28,7 @@ const config = Object.assign({}, baseConfig, {
     ],
     devServer: devServerConfig,
     cache: true,
-    devtool: 'eval-source-map',
+    devtool: 'inline-source-map',
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),

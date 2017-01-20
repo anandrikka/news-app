@@ -73,8 +73,8 @@ var loadArticlesBySource = function (source, sortBy) {
                 sortBy: sortBy,
                 publishedAt: publishedAt,
                 timezone: timezone,
-                reverseOrder: -moment.tz(publishedAt, timezone).valueOf(),
-                order: moment.tz(publishedAt, timezone).valueOf()
+                reverseOrder: -moment.tz(publishedAt, timezone).unix(),
+                order: moment.tz(publishedAt, timezone).unix()
             });
             modifiedArticle = modifiedArticle.toJS();
             var key = articleSource + '_' + utilites.removeSplChars(modifiedArticle.title);
@@ -99,8 +99,10 @@ var deleteOldArticlesByTimezone = function (country, tz) {
 }
 
 var loadArticlesByCountry = function (country) {
+    console.log('Started loading articles for country: ', country);
     sourcesRef.orderByChild('country').equalTo(country).once('value').then(function (dataSnapshot) {
-        dataSnapshot.forEach(function (source) {
+        dataSnapshot.forEach(function (sourceSnapshot) {
+            var source = sourceSnapshot.val();
             source.sortBysAvailable.forEach(function (sortBy) {
                 loadArticlesBySource(source, sortBy);
             });
@@ -119,6 +121,27 @@ var loadNewArticles = function () {
     });
 };
 
+
+// loadArticlesByCountry('us');
+
+var getArticles = function () {
+    countriesRef.once('value').then(function (dataSnapshot) {
+        var countries = dataSnapshot.val();
+        countries = ['us'];
+        for (var i = 0; i < countries.length; i++) {
+            db.ref('/articles/' + countries[i]).orderByChild('reverseOrder').once('value').then(function (dataSnapshot) {
+                var country = dataSnapshot.key;
+                dataSnapshot.forEach(function (articleSnapshot) {
+                    var article = articleSnapshot.val();
+                    console.log(country, article.publishedAt);
+                })
+            })
+        }
+    });
+};
+
+//getArticles();
+
 module.exports = {
     createSourceRefs: createSourceRefs,
     loadArticlesByCountry: loadArticlesByCountry,
@@ -129,20 +152,3 @@ module.exports = {
     countriesRef: countriesRef,
     loadNewArticles: loadNewArticles
 };
-
-// loadArticlesByCountry('us');
-
-// var getArticles = function () {
-//     countriesRef.once('value').then(function (dataSnapshot) {
-//         var countries = dataSnapshot.val();
-//         for (var i = 0; i < countries.length; i++) {
-//             db.ref('/articles/' + countries[i].name).orderByChild('reverseOrder').once('value').then(function (dataSnapshot) {
-//                 var country = dataSnapshot.key;
-//                 dataSnapshot.forEach(function (articleSnapshot) {
-//                     var article = articleSnapshot.val();
-//                     console.log(country, article.publishedAt);
-//                 })
-//             })
-//         }
-//     });
-// };

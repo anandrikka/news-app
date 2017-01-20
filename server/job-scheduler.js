@@ -43,7 +43,7 @@ countriesRef.once('value').then(function (countriesSnapshot) {
             var newArticleJob = new CronJob({
                 cronTime: '0 */25 * * * *',
                 onTick: function () {
-                    console.log('Job triggered to fetch new articles for timezone: ' + country.name);
+                    console.log('Job triggered to fetch new articles for country: ' + country.name);
                     firebaseDataServices.loadArticlesByCountry(country.code);
                 },
                 start: false,
@@ -53,7 +53,7 @@ countriesRef.once('value').then(function (countriesSnapshot) {
             var cleanupJob = new CronJob({
                 cronTime: '00 00 00 * * *',
                 onTick: function () {
-                    console.log('Job triggered to delete old articles for timezone: ' + country.name);
+                    console.log('Job triggered to delete old articles for country: ' + country.name);
                     firebaseDataServices.deleteOldArticlesByTimezone(country.tz);
                 },
                 start: false,

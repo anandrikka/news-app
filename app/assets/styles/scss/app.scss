@@ -8,4 +8,57 @@ body{
     background: #f1f1f1 !important;
 }
 
+#main {
+    //background: #ECEFF1 !important;
+    background: #f1f1f1 !important;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+#appContainer {
+    flex: 1 0 auto;
+}
+
+.no-m {
+    margin: 0 !important;
+}
+.no-p {
+    padding: 0 !important
+}
+.no-ml {
+    margin-left: 0 !important;
+}
+.no-mr {
+    margin-right: 0 !important;
+}
+.no-mt {
+    margin-top: 0 !important;
+}
+.no-mb {
+    margin-bottom: 0 !important;
+}
+.no-pl {
+    padding-left: 0 !important
+}
+.no-pr {
+    padding-right: 0 !important
+}
+.no-pb {
+    padding-bottom: 0 !important
+}
+.no-pt {
+    padding-top: 0 !important
+}
+.inline {
+    display: inline !important;
+}
+.inline-block {
+    display: inline-block !important;
+}
+.block {
+    display: block !important;
+}
+
 @import 'navbar.scss';
+@import 'news-card.scss';
