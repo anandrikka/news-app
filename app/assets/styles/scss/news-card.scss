@@ -4,11 +4,42 @@
     border-radius: 4px;
     overflow: hidden;
     margin: 8px;
-    background-size: cover;
-    background-position: 50%;
+    background-size: 100% 100%;
+    //background-position: 50%;
 }
 
 .news-content {
     padding-left: 0px !important;
     padding-top: 0px !important;
+
+    .title {
+        font-size: 1.4rem;
+        line-height: 150%;
+        font-weight: 900;
+        margin-bottom: 0;
+    }
+
+    .published {
+        padding: 8px 0px;
+        color: #ccc;
+        font-weight: 500;
+    }
+
+    .description {
+        font-weight: 400;
+    }
+
+}
+
+.newscard {
+    padding: 0;
+    .card-stacked {
+        height: 274px;
+    }
+}
+
+@media(max-height: 601px) {
+    .news-content {
+       margin: 8px;
+    }
 }

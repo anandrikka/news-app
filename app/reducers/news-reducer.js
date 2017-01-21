@@ -6,9 +6,7 @@ const defaultState = {
         list: []
     },
     newArticlesCount: 0,
-    categories: [],
-    countries: [],
-    isLoading: false
+    selectedCategory: 'all'
 };
 
 function app(state = defaultState, action) {
@@ -17,19 +15,13 @@ function app(state = defaultState, action) {
         case ActionConstants.LOAD_ARTICLES:
             modifiedState = Immutable.fromJS(state);    
             const { articles } = action.payload;
-            modifiedState = modifiedState.updateIn(['articles', 'list'], list => list.concat(articles.list));
+            modifiedState = modifiedState.updateIn(['articles', 'list'], list => articles.list);
             modifiedState = modifiedState.mergeDeep({
                 articles: {
                     topKey: articles.topKey,
                     bottomKey: articles.bottomKey
-                }
-            });
-            return modifiedState.toJS();
-        case ActionConstants.LOAD_SYSTEM_DETAILS:
-            modifiedState = Immutable.Map(state);
-            const { system } = action.payload;
-            modifiedState = modifiedState.mergeDeep({
-                system
+                },
+                selectedCategory: action.payload.selectedCategory
             });
             return modifiedState.toJS();
         default:

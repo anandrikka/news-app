@@ -20,6 +20,15 @@ body{
     flex: 1 0 auto;
 }
 
+footer {
+    .footer-copyright {
+        font-weight: 500 !important;
+        .container {
+            width: 90%;
+        }
+    }
+}
+
 .no-m {
     margin: 0 !important;
 }
@@ -58,6 +67,9 @@ body{
 }
 .block {
     display: block !important;
+}
+.pointer {
+    cursor: pointer;
 }
 
 @import 'navbar.scss';

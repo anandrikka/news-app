@@ -2,7 +2,7 @@
   "name": "24x7-news",
   "version": "0.0.1",
   "description": "A 24x7 News Application powered by NewsApi",
-  "main": "index.js",
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git+https://anandrikka@bitbucket.org/anandrikka/news-app.git"
@@ -17,7 +17,8 @@
     "serve:dev": "node client-server.js --env=dev",
     "serve:dist": "node server.js --env=dist",
     "test": "karma start",
-    "test:watch": "karma start --autoWatch=true --singleRun=false"
+    "test:watch": "karma start --autoWatch=true --singleRun=false",
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -34,7 +35,8 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "redux-thunk": "^2.2.0",
-    "socket-io": "^1.0.0"
+    "socket-io": "^1.0.0",
+    "socket.io": "^1.7.2"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",

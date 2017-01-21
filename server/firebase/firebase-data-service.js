@@ -15,6 +15,9 @@ var axios = require('axios'),
     categoriesRef = db.ref('/categories'),
     countriesRef = db.ref('/countries');
 
+/**
+ *Create nodes categories, sources and countries - One time activity.
+ */
 var createSourceRefs = function () {
     return axios.get(baseUrl + '/sources', {
         params: {
@@ -44,10 +47,12 @@ var createSourceRefs = function () {
         categoriesRef.set(categories);
         countriesRef.set(countries);
     }, function (error) {
-        
     });
 };
 
+/**
+ *Load articles by source and sort by.
+ */
 var loadArticlesBySource = function (source, sortBy) {
     return axios.get(baseUrl + '/articles', {
         params: {
@@ -73,31 +78,39 @@ var loadArticlesBySource = function (source, sortBy) {
                 sortBy: sortBy,
                 publishedAt: publishedAt,
                 timezone: timezone,
-                reverseOrder: -moment.tz(publishedAt, timezone).unix(),
-                order: moment.tz(publishedAt, timezone).unix()
+                descOrder: -moment.tz(publishedAt, timezone).unix(),
+                ascOrder: moment.tz(publishedAt, timezone).unix()
             });
             modifiedArticle = modifiedArticle.toJS();
-            var key = articleSource + '_' + utilites.removeSplChars(modifiedArticle.title);
+            var key = utilites.removeSplChars(modifiedArticle.title, true).toLowerCase().trim();
             articlesRef.child(source.country).child(key).set(modifiedArticle);
         });
     }, function (error) {
     });
 };
 
+/**
+ *Delete articles for each country by timezone.
+ */
 var deleteOldArticlesByTimezone = function (country, tz) {
-    db.ref('/articles/' + country).orderByChild('order').once('value').then(function (articlesSnapshot) {
+    db.ref('/articles/' + country).orderByChild('ascOrder')
+    .once('value').then(function (articlesSnapshot) {
         articlesSnapshot.forEach(function (articleSnapshot) {
             var article = articleSnapshot.val();
             var publishedTime = moment.tz(article.publishedAt, tz);
-            var timenow = moment.tz(tz).subtract(3, 'days');
+            var timenow = moment.tz(tz).subtract(2, 'days');
             if (publishedTime.isBefore(timenow)) {
                 db.ref('/articles/' + country).child('/' + articleSnapshot.key).remove();
-                console.log(`Article from ${article.source} published at ${article.publishedAt} deleted`);
+                console.log(`Article from ${article.source} published at 
+                    ${moment(publishedTime).format('YYYY-MM-DD HH:mm')} deleted`);
             }
         });
     });
 }
 
+/**
+ *Load articles by country.
+ */
 var loadArticlesByCountry = function (country) {
     console.log('Started loading articles for country: ', country);
     sourcesRef.orderByChild('country').equalTo(country).once('value').then(function (dataSnapshot) {
@@ -110,6 +123,9 @@ var loadArticlesByCountry = function (country) {
     });
 }
 
+/**
+ *One time activity for loading new articles and save them into firebase db.
+ */
 var loadNewArticles = function () {
     sourcesRef.once('value').then(function (dataSnapshot) {
         dataSnapshot.forEach(function (sourceSnapshot) {
@@ -121,34 +137,13 @@ var loadNewArticles = function () {
     });
 };
 
-
-// loadArticlesByCountry('us');
-
-var getArticles = function () {
-    countriesRef.once('value').then(function (dataSnapshot) {
-        var countries = dataSnapshot.val();
-        countries = ['us'];
-        for (var i = 0; i < countries.length; i++) {
-            db.ref('/articles/' + countries[i]).orderByChild('reverseOrder').once('value').then(function (dataSnapshot) {
-                var country = dataSnapshot.key;
-                dataSnapshot.forEach(function (articleSnapshot) {
-                    var article = articleSnapshot.val();
-                    console.log(country, article.publishedAt);
-                })
-            })
-        }
-    });
-};
-
-//getArticles();
-
 module.exports = {
     createSourceRefs: createSourceRefs,
     loadArticlesByCountry: loadArticlesByCountry,
     deleteOldArticlesByTimezone: deleteOldArticlesByTimezone,
+    loadNewArticles: loadNewArticles,
     sourcesRef: sourcesRef,
     categoriesRef: categoriesRef,
     articlesRef: articlesRef,
-    countriesRef: countriesRef,
-    loadNewArticles: loadNewArticles
+    countriesRef: countriesRef
 };

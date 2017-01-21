@@ -49,4 +49,16 @@ router.get('/system', function (req, res) {
     })
 });
 
+router.get('/categories', function (req, res) {
+    db.ref('/categories').once('value').then(function (categoriesSnapshot) {
+        res.send(categoriesSnapshot.val())
+    });
+});
+
+router.get('/countries', function (req, res) {
+    db.ref('/countries').once('value').then(function (countriesSnapshot) {
+        res.send(countriesSnapshot.val())
+    });
+});
+
 module.exports = router;
