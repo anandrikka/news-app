@@ -21,7 +21,8 @@ function app(state = defaultState, action) {
                     topKey: articles.topKey,
                     bottomKey: articles.bottomKey
                 },
-                selectedCategory: action.payload.selectedCategory
+                selectedCategory: action.payload.selectedCategory,
+                selectedCountry: articles.selectedCountry
             });
             return modifiedState.toJS();
         default:

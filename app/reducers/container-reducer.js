@@ -5,7 +5,8 @@ const defaultState = {
     categories: [],
     isLoading: false,
     sources: {},
-    system: {}
+    system: {},
+    countries: []
 };
 
 function app(state = defaultState, action) {
@@ -23,6 +24,13 @@ function app(state = defaultState, action) {
             const {categories} = action.payload;
             modifiedState = modifiedState.mergeDeep({
                 categories
+            });
+            return modifiedState.toJS();
+        case ActionConstants.LOAD_COUNTRIES:
+            modifiedState = Immutable.Map(state);
+            const { countries } = action.payload;
+            modifiedState = modifiedState.mergeDeep({
+                countries
             });
             return modifiedState.toJS();
         case ActionConstants.CLEAR_ARTICLES:

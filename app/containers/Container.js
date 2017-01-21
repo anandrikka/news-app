@@ -13,12 +13,27 @@ class MainContainer extends Component {
         this.props.actions.systemDetails();
         this.props.actions.getCategories();
         this.props.actions.getSources();
+        this.props.actions.getCountries();
+        this.loadByCategory = this.loadByCategory.bind(this);
+        this.loadByCountry = this.loadByCountry.bind(this);
+    }
+
+    loadByCategory(category) {
+        const { system } = this.props.app;
+        this.props.actions.loadArticles(category, system.countryCode);
+    }
+
+    loadByCountry(country) {
+        this.props.actions.loadArticles('all', country);
     }
 
     render() {
         return (
             <div id="main">
-                <Navbar {...this.props.app} actions={this.props.actions}/>
+                <Navbar {...this.props.app} loadByCategory={this.loadByCategory}
+                    actions={this.props.actions}
+                    category={this.props.news.selectedCategory}
+                    country={this.props.news.selectedCountry}/>
                 <div id="appContainer">
                     {this.props.children}
                 </div>

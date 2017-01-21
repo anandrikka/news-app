@@ -51,7 +51,8 @@ router.get('/articles/:category', function (req, res) {
         }
         dbRef.once('value').then(function (articlesSnapshot) {
             var articles = {
-                list: []
+                list: [],
+                selectedCountry: country
             };
             if(articlesSnapshot.val()) {
                 var totalArticlesCount = Object.keys(articlesSnapshot.val()).length;

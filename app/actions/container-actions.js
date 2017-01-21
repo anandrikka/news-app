@@ -39,3 +39,16 @@ export const systemDetails = () => (dispatch) => {
 
     });
 };
+
+export const getCountries = () => (dispatch) => {
+    return axios.get(resources.countries).then((response) => {
+        dispatch({
+            type: ActionConstants.LOAD_COUNTRIES,
+            payload: {
+                countries: response.data
+            }
+        });
+    }, (error) => {
+
+    });
+}
