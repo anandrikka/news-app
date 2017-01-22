@@ -11,17 +11,19 @@ class HomeComponent extends Component {
   // let children = React.cloneElement(this.props.children, this.props);
   constructor(props) {
     super(props);
-    this.props.actions.loadArticles('all');
     this.loadByCategory = this.loadByCategory.bind(this);
   }
 
   componentDidMount() {
+    this.props.actions.loadArticles('all', this.props.news.selectedCountry);
     //this.props.actions.loadArticles(this.props.news.system.countryCode);
     // var socket = io.connect('http://localhost:3000');
     // socket.on('news', function (data) {
     //   console.log(data);
     // });
   }
+
+
 
   openUrl(url) {
     if (url) {

@@ -11,10 +11,10 @@ class MainContainer extends Component {
 
     constructor(props) {
         super(props);
+        this.props.actions.getCountries();
         this.props.actions.systemDetails();
         this.props.actions.getCategories();
         this.props.actions.getSources();
-        this.props.actions.getCountries();
         this.loadByCategory = this.loadByCategory.bind(this);
         this.loadByCountry = this.loadByCountry.bind(this);
     }
@@ -44,6 +44,7 @@ class MainContainer extends Component {
             </div>
         );
     }
+
 }
 
 const actions = Object.assign({}, containerActions, newsActions);
