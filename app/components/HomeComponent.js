@@ -10,28 +10,18 @@ class HomeComponent extends Component {
   constructor(props) {
     super(props);
     this.props.actions.loadArticles('all');
-    this.loadMore = this.loadMore.bind(this);
-    this.state = {
-      bottomIndex: 15
-    }
   }
 
   componentDidMount() {
     //this.props.actions.loadArticles(this.props.news.system.countryCode);
   }
-  
-
-  loadMore() {
-    this.setState({
-      bottomIndex: this.state.bottomIndex + 15
-    });
-  }
 
   render() {
     let articles = JSON.parse(JSON.stringify(this.props.news.articles.list));
+    let sources = this.props.app.sources;
     if (articles.length > 0) {
-      if (this.state.bottomIndex < articles.length) {
-        articles = articles.splice(0, this.state.bottomIndex);
+      if (this.props.news.bottomIndex < articles.length) {
+        articles = articles.splice(0, this.props.news.bottomIndex);
       }
       return (
         <div className="container">
@@ -39,9 +29,16 @@ class HomeComponent extends Component {
           <div className="row card-stack">
             {
               articles.map((article, index) => {
+                let urlToImage = article.urlToImage;
+                if (!urlToImage) {
+                  const sourceDetails = this.props.app.sources[article.source];
+                  if (sourceDetails) {
+                      urlToImage = sourceDetails.urlsToLogos.large
+                  }
+                }
                 const styles = {
                   bkImage: {
-                    backgroundImage: 'url(' + article.urlToImage + ')'
+                    backgroundImage: 'url(' + urlToImage + ')'
                   }
                 }
                 return (
@@ -51,7 +48,8 @@ class HomeComponent extends Component {
                         <div className="col s12 m5">
                           {
                             article.urlToImage ? (<div className="newscard-img" style={styles.bkImage} />) : (
-                              <div className="newscard-img"/>
+                              <div className="newscard-img"
+                                style={{ backgroundImage: 'url(' + urlToImage + ')' }}></div>
                             ) 
                           }
                         </div>
@@ -61,7 +59,7 @@ class HomeComponent extends Component {
                               <div className="card-content news-content">
                                 <h5 className="title">{article.title}</h5>
                                 <p className="published">
-                                  Published by <b>{article.author || 'NA'}</b> at {article.publishedAt}
+                                  Published by <b>{article.author || sources[article.source.name]}</b> at {article.publishedAt}
                                 </p>
                                 <p className="description">{article.description}</p>
                               </div>
@@ -75,10 +73,10 @@ class HomeComponent extends Component {
             }
           </div>
           {
-            this.state.bottomIndex < this.props.news.articles.list.length &&  
+            this.props.news.bottomIndex < this.props.news.articles.list.length &&  
             <div className="row">
               <div className="col s12 center-align">
-                <button className="waves-effect btn" onClick={this.loadMore}>LOAD MORE</button>  
+                <button className="waves-effect btn" onClick={this.props.actions.loadMore15}>LOAD MORE</button>  
               </div>
             </div>
           }

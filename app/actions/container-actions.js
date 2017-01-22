@@ -21,7 +21,7 @@ export const getSources = () => (dispatch) => {
         dispatch({
             type: ActionConstants.LOAD_SOURCES,
             payload: {
-                categories: response.data
+                sources: response.data
             }
         });
     });

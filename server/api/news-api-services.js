@@ -8,6 +8,8 @@ var countryTimezones = require('../config/country-timezones');
 var timezoneCountryMap = countryTimezones.timezoneCountryMap;
 var guessTzMap = countryTimezones.guessTzMap;
 
+//var zlib = require('zlib');
+
 router.use(function (req, res, next) {
     req.params = req.params || {};
     req.query = req.query || {};
@@ -69,6 +71,11 @@ router.get('/articles/:category', function (req, res) {
                     }
                 });
             }
+            // var buf = new Buffer(JSON.stringify(articles), 'utf-8');
+            // zlib.gzip(buf, function (_, result) {
+            //     res.writeHead(200, { 'Content-Type': 'application/json', 'Content-Encoding': 'gzip' });
+            //     res.send(result);
+            // });
             res.send(articles);
         });
     }

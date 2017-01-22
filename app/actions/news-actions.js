@@ -30,3 +30,7 @@ export const loadArticles = (category, country) => (dispatch) => {
         dispatch(loading(false));
     });
 }
+
+export const loadMore15 = () => ({
+    type: ActionConstants.LOAD_MORE_15
+});

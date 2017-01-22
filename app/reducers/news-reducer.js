@@ -6,7 +6,8 @@ const defaultState = {
         list: []
     },
     newArticlesCount: 0,
-    selectedCategory: 'all'
+    selectedCategory: 'all',
+    bottomIndex: 15
 };
 
 function app(state = defaultState, action) {
@@ -22,7 +23,8 @@ function app(state = defaultState, action) {
                     bottomKey: articles.bottomKey
                 },
                 selectedCategory: action.payload.selectedCategory,
-                selectedCountry: articles.selectedCountry
+                selectedCountry: articles.selectedCountry,
+                bottomIndex: 15
             });
             return modifiedState.toJS();
         case ActionConstants.SELECTED_COUNTRY:
@@ -30,6 +32,12 @@ function app(state = defaultState, action) {
             modifiedState = Immutable.fromJS(state);
             modifiedState = modifiedState.mergeDeep({
                 selectedCountry: selectedCountry
+            });
+            return modifiedState.toJS();
+        case ActionConstants.LOAD_MORE_15:
+            modifiedState = Immutable.fromJS(state);
+            modifiedState = modifiedState.mergeDeep({
+                bottomIndex: state.bottomIndex + 15
             });
             return modifiedState.toJS();
         default:

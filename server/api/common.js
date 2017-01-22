@@ -61,4 +61,10 @@ router.get('/countries', function (req, res) {
     });
 });
 
+router.get('/sources', function (req, res) {
+    db.ref('/sources').once('value').then(function (sourcesSnapshot) {
+        res.send(sourcesSnapshot.val())
+    });
+});
+
 module.exports = router;
