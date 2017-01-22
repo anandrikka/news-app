@@ -25,6 +25,13 @@ function app(state = defaultState, action) {
                 selectedCountry: articles.selectedCountry
             });
             return modifiedState.toJS();
+        case ActionConstants.SELECTED_COUNTRY:
+            const { selectedCountry } = action.payload;
+            modifiedState = Immutable.fromJS(state);
+            modifiedState = modifiedState.mergeDeep({
+                selectedCountry: selectedCountry
+            });
+            return modifiedState.toJS();
         default:
             return state; 
     }

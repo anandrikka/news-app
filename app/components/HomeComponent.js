@@ -49,7 +49,11 @@ class HomeComponent extends Component {
                     <div className="card newscard card-panel hoverable pointer">
                       <div className="row">
                         <div className="col s12 m5">
-                          <div className="newscard-img" style={styles.bkImage}/>
+                          {
+                            article.urlToImage ? (<div className="newscard-img" style={styles.bkImage} />) : (
+                              <div className="newscard-img"/>
+                            ) 
+                          }
                         </div>
                         <div className="hide-on-med-and-up" style={{height: '15px'}}></div>
                         <div className="col s12 m7">

@@ -47,6 +47,12 @@ function app(state = defaultState, action) {
                 sources
             });
             return modifiedState.toJS();
+        case ActionConstants.LOADING_FLAG:
+            modifiedState = Immutable.Map(state);
+            modifiedState = modifiedState.mergeDeep({
+                isLoading: action.payload.isLoading
+            });
+            return modifiedState.toJS();
         default:
             return state; 
     }

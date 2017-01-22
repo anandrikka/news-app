@@ -40,6 +40,11 @@ export const systemDetails = () => (dispatch) => {
     });
 };
 
+// const loading = (isLoading) => ({
+//     type: ActionConstants.LOADING_FLAG,
+//     isLoading
+// });
+
 export const getCountries = () => (dispatch) => {
     return axios.get(resources.countries).then((response) => {
         dispatch({

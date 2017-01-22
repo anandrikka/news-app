@@ -5,6 +5,11 @@ class Navbar extends Component {
     constructor(props) {
         super(props);
         this.loadByCategory = this.loadByCategory.bind(this);
+        this.loadByCountry = this.loadByCountry.bind(this);
+        this.state = {
+            dropdownVisible: 'block'
+        };
+        this.showDropdown = this.showDropdown.bind(this);
     }
 
     openNav = () => {
@@ -13,13 +18,23 @@ class Navbar extends Component {
 
     closeNav = () => {
         document.getElementById('sidenav').style.width = '0';
+        document.getElementById('cdropdown').style.display = 'none';
     }
 
     componentDidMount() {
     }
     
     showDropdown() {
-        document.getElementById('cdropdown').style.display = 'block';
+        let dd;
+        if (this.state.dropdownVisible === 'block') {
+            dd = 'none';
+        } else {
+            dd = 'block';
+        }
+        this.setState({
+            dropdownVisible: dd
+        });
+        document.getElementById('cdropdown').style.display = this.state.dropdownVisible;
     }
 
     loadByCategory(category) {
@@ -29,6 +44,7 @@ class Navbar extends Component {
 
     loadByCountry(country) {
         this.props.loadByCountry(country);
+        this.showDropdown();
         this.closeNav();
     }
 
@@ -37,6 +53,10 @@ class Navbar extends Component {
         const system = this.props.system || {};
         const country = system.countryCode;
         const countries = this.props.countries || [];
+        const countriesMap = {};
+        for (let i = 0; i < countries.length; i++) {
+            countriesMap[countries[i].code] = countries[i];
+        }
         return (
             <header>
                 <div className="navbar-fixed">
@@ -51,42 +71,32 @@ class Navbar extends Component {
                 <div id="sidenav" className="sidenav teal z-depth-1">
                     <a href="javascript:void(0)"
                         className="closebtn material-icons" onClick={this.closeNav}>chevron_left</a>    
-                    {/*<h5>{system.countryName} | English</h5>*/}
-                    {/*<h5>Categories</h5>*/}
-                    <div>
-                        <div className="countries">
-                            <div className="selected" onClick={() => this.loadByCountry(country)}>
-                                 <span className={country === this.props.country ? "btn" : "countryClass"}>
-                                    {system.countryName ? system.countryName.toUpperCase() : ''}
-                                </span>   
-                            </div>
-                            <div className="rest"
-                                onMouseEnter={this.showDropdown}    
-                                onClick={() => this.loadByCountry(country)}>
-                                <span id="world"
-                                    className={country !== this.props.country ? "btn" : "worldClass"}>
-                                    WORLD
-                                </span>
-                                <ul id="cdropdown" className="cdropdown">
-                                    {
-                                        countries.map((country, index) => {
-                                            return <li key={index}><span>{country.name}</span></li>
-                                        })
-                                    }
-                                </ul>
-                            </div>
+                    <div className="countries">
+                        <div className="rest">
+                            <button className="btn" onClick={this.showDropdown}>
+                                {this.props.country && countriesMap[this.props.country].name}
+                                <i className="material-icons right"
+                                    style={{ marginLeft: 0 }}>expand_more</i>
+                            </button>
+                            <ul id="cdropdown" className="cdropdown">
+                                {
+                                    countries.map((country, index) => {
+                                        return <li key={index}
+                                            onClick={() => this.loadByCountry(country.code)}><span>{country.name}</span></li>
+                                    })
+                                }
+                            </ul>
                         </div>
                     </div>
                     <div className="categories">
                         <ul>
-                            <li key={-1} onClick={() => this.loadByCategory('all')}>ALL</li>    
+                            <li key={-1}><span onClick={() => this.loadByCategory('all')}>ALL</span></li>    
                             {
                                 categories.map((category, index) => {
                                     const activeClass = category === this.props.category ? 'activeClass' : ''
                                     return <li key={index}
-                                        className={activeClass}    
-                                        onClick={() => this.loadByCategory(category)}>
-                                        {category.toUpperCase()}
+                                        className={activeClass}>
+                                        <span onClick={() => this.loadByCategory(category)}>{category.toUpperCase()}</span>
                                     </li>
                                 })
                             }

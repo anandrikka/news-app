@@ -29,24 +29,23 @@
 
     .countries {
         margin-bottom: 20px;
+        text-align: center;
 
         .countryClass {
             color: #fff;
             font-weight: 500;
         }
 
-        // .worldClass:hover {
-        //     background-color: white;
-        //     color: #ccc;
-        //     font-weight: 500;
-        // }
-
         .selected {
-            display: inline-block;
+            .activeClass {
+                background: #ccc;
+                color: black;
+                font-weight: 500;
+            }
         }
 
         .rest {
-            display: inline-block;
+            //display: inline-block;
             cursor: pointer;
             color: #fff;
             font-weight: 500;
@@ -76,17 +75,12 @@
                         display: block;
                         line-height: 22px;
                         padding: 14px 16px;
-
                     }
                 }
-                // li:hover {
-                //     background-color: #eee;
-                // }
+                li:hover {
+                    background-color: #eee;
+                }
             }
-        }
-
-        .btn {
-            margin: 0 16px;
         }
     }
 
