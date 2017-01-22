@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 import moment from 'moment-timezone';
 
 import * as NewsActions from '../actions/news-actions';
+import noResultsImg from '../assets/images/no_results.png';
 
 class HomeComponent extends Component {
   // let children = React.cloneElement(this.props.children, this.props);
@@ -116,7 +117,7 @@ class HomeComponent extends Component {
       return (
         <div>
           <div className="no-results">
-            <img src="../assets/images/no_results.png" />  
+            <img src={noResultsImg} />  
           </div>  
           <br />
           {
