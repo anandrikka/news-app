@@ -15,7 +15,7 @@ class HomeComponent extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.loadArticles('all', this.props.news.selectedCountry);
+    //this.props.actions.loadArticles('all', this.props.news.selectedCountry);
     //this.props.actions.loadArticles(this.props.news.system.countryCode);
     // var socket = io.connect('http://localhost:3000');
     // socket.on('news', function (data) {
@@ -23,6 +23,13 @@ class HomeComponent extends Component {
     // });
   }
 
+  componentWillReceiveProps (nextProps) {
+    // let prevProps = this.props;
+    // if (prevProps.app.countries.length !== nextProps.app.countries.length ) {
+    //   this.props.actions.loadArticles('all', nextProps.news.selectedCountry);
+    // }
+  }
+    
 
 
   openUrl(url) {

@@ -8,6 +8,8 @@ import * as countryTimezones from '../data/country-timezones';
 const timezoneCountryMap = countryTimezones.timezoneCountryMap;
 const guessTzMap = countryTimezones.guessTzMap;
 
+import { loadArticles } from './news-actions';
+
 export const getCategories = () => (dispatch) => {
     return axios.get(resources.categories).then((response) => {
         dispatch({
@@ -45,10 +47,12 @@ export const systemDetails = () => (dispatch) => {
     });
 };
 
-// const loading = (isLoading) => ({
-//     type: ActionConstants.LOADING_FLAG,
-//     isLoading
-// });
+const loading = (isLoading) => ({
+    type: ActionConstants.LOADING_FLAG,
+    payload: {
+        isLoading
+    }
+});
 
 export const getCountries = () => (dispatch) => {
     return axios.get(resources.countries).then((response) => {
@@ -78,6 +82,24 @@ export const getCountries = () => (dispatch) => {
             payload: {
                 selectedCountry: country
             }
+        });
+        var resource = `${resources.baseUrl}/news/articles/all`;
+        dispatch(loading(true));
+        return axios.get(resource, {
+            params: {
+                country
+            }
+        }).then((response) => {
+            dispatch(loading(false));
+            dispatch({
+                type: ActionConstants.LOAD_ARTICLES,
+                payload: {
+                    articles: response.data,
+                    selectedCategory: 'all'
+                }
+            })
+        }, (error) => {
+            dispatch(loading(false));
         });
     }, (error) => {
 
