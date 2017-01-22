@@ -3,13 +3,20 @@
 var express = require('express');
 var app = express();
 
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+var compression = require('compression')
+
 var firebase = require('./server/firebase/firebase-initialize');
 var firebaseDataService = require('./server/firebase/firebase-data-service');
 
 var isProd = process.env.PORT ? true : false;
 var serviceVersion = 'v1';
 
-//firebase.database().ref('/articles').remove();
+app.use(compression());
+
+firebase.database().ref('/articles').remove();
 
 //One Time Activity to Feed information into firebase db.
 firebaseDataService.createSourceRefs().then(function () {
@@ -38,6 +45,13 @@ app.get('*', function (req, res) {
 
 var port = process.env.PORT || 3000;
 
-app.listen(port, function () {
+io.on('connection', function (socket) {
+//   socket.emit('news', { hello: 'world' });
+//   socket.on('my other event', function (data) {
+//     console.log(data);
+//   });
+});
+
+server.listen(port, function () {
     console.log('app starting listening on ', port);
 });

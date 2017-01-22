@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "compression": "^1.6.2",
     "core-js": "^2.4.1",
     "cron": "^1.2.1",
     "express": "^4.14.0",
@@ -58,6 +59,7 @@
     "graceful-fs": "^4.1.11",
     "html-webpack-plugin": "^2.26.0",
     "isparta-instrumenter-loader": "^1.0.1",
+    "json-loader": "^0.5.4",
     "minimist": "^1.2.0",
     "node-sass": "^4.3.0",
     "null-loader": "^0.1.1",

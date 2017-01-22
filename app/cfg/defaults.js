@@ -29,6 +29,10 @@ function defaultModules() {
                 loader: 'css-loader'
             },
             {
+                test: /\.json$/,
+                loader: 'json-loader'
+            },
+            {
                 test: /\.scss/,
                 loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader')
             },

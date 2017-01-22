@@ -41,7 +41,7 @@ countriesRef.once('value').then(function (countriesSnapshot) {
         (function (country) {
             var country = countries[i];
             var newArticleJob = new CronJob({
-                cronTime: '0 */25 * * * *',
+                cronTime: '0 */30 * * * *',
                 onTick: function () {
                     console.log('Job triggered to fetch new articles for country: ' + country.name);
                     firebaseDataServices.loadArticlesByCountry(country.code);

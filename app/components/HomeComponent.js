@@ -1,7 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 // import config from 'config';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
+import moment from 'moment-timezone';
 
 import * as NewsActions from '../actions/news-actions';
 
@@ -10,10 +12,25 @@ class HomeComponent extends Component {
   constructor(props) {
     super(props);
     this.props.actions.loadArticles('all');
+    this.loadByCategory = this.loadByCategory.bind(this);
   }
 
   componentDidMount() {
     //this.props.actions.loadArticles(this.props.news.system.countryCode);
+    // var socket = io.connect('http://localhost:3000');
+    // socket.on('news', function (data) {
+    //   console.log(data);
+    // });
+  }
+
+  openUrl(url) {
+    if (url) {
+      window.open(url, '_blank').focus();
+    }
+  }
+
+  loadByCategory(category) {
+      this.props.actions.loadArticles(category, this.props.news.selectedCountry);
   }
 
   render() {
@@ -43,7 +60,8 @@ class HomeComponent extends Component {
                 }
                 return (
                   <div className="col s12" key={index}>
-                    <div className="card newscard card-panel hoverable pointer">
+                    <div className="card newscard card-panel hoverable pointer"
+                      onClick={() => this.openUrl(article.url)}>
                       <div className="row">
                         <div className="col s12 m5">
                           {
@@ -59,7 +77,8 @@ class HomeComponent extends Component {
                               <div className="card-content news-content">
                                 <h5 className="title">{article.title}</h5>
                                 <p className="published">
-                                  Published by <b>{article.author || sources[article.source.name]}</b> at {article.publishedAt}
+                                Published by <b>{article.author || sources[article.source].name}</b> at <b>
+                                {moment.tz(article.publishedAt, article.timezone).format('Do MMM YYYY HH:mm z')}</b>
                                 </p>
                                 <p className="description">{article.description}</p>
                               </div>
@@ -76,13 +95,31 @@ class HomeComponent extends Component {
             this.props.news.bottomIndex < this.props.news.articles.list.length &&  
             <div className="row">
               <div className="col s12 center-align">
-                <button className="waves-effect btn" onClick={this.props.actions.loadMore15}>LOAD MORE</button>  
+                <button className="waves-effect btn" onClick={this.props.actions.loadMore15}>
+                  LOAD MORE</button>  
               </div>
             </div>
           }
           
         </div>
       );
+    } else if (articles.length === 0 && !this.props.app.isLoading) {
+      return (
+        <div>
+          <div className="no-results">
+            <img src="../assets/images/no_results.png" />  
+          </div>  
+          <br />
+          {
+            this.props.app.categories.map((category, index) => {
+              return <button style={{margin: '16px'}} key={index} className="hide-on-small-only btn waves-effect waves-light"
+                onClick={() => this.loadByCategory(category)}>
+                {category.toUpperCase()}
+              </button>
+            })
+          }
+        </div>
+      )
     }
     return <div>Loding...</div>
   }

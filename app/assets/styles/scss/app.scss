@@ -72,6 +72,14 @@ footer {
     cursor: pointer;
 }
 
+.no-results {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @import 'navbar.scss';
 @import 'news-card.scss';
 @import 'loading.scss';
+@import '404.scss';

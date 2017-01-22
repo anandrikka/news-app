@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-
+import { Link } from 'react-router';
 class Navbar extends Component {
     
     constructor(props) {
@@ -62,7 +62,7 @@ class Navbar extends Component {
                 <div className="navbar-fixed">
                     <nav>
                         <div className="nav-wrapper">
-                            <a href="#" className="brand-logo center"><h4>News 24x7</h4></a>
+                            <Link to="/" className="brand-logo center"><h4>Daily News</h4></Link>
                             <i className="left material-icons pointer" style={{ fontSize: '2rem', paddingLeft: '16px' }}
                                 onClick={this.openNav}>menu</i>
                         </div>

@@ -98,7 +98,7 @@ var deleteOldArticlesByTimezone = function (country, tz) {
         articlesSnapshot.forEach(function (articleSnapshot) {
             var article = articleSnapshot.val();
             var publishedTime = moment.tz(article.publishedAt, tz);
-            var timenow = moment.tz(tz).subtract(2, 'days');
+            var timenow = moment.tz(tz).subtract(1, 'days');
             if (publishedTime.isBefore(timenow)) {
                 db.ref('/articles/' + country).child('/' + articleSnapshot.key).remove();
                 console.log(`Article from ${article.source} published at 
