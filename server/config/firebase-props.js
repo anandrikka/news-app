@@ -3,6 +3,6 @@
 var accountInfo = require('./firebase-account');
 
 module.exports = {
-    url: 'https://test123-3807f.firebaseio.com',
+    url: 'https://news24x7-9bd6a.firebaseio.com/',
     accountInfo: accountInfo
 };

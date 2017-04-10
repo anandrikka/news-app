@@ -9,7 +9,6 @@ import Main from './containers/Container';
 const routes = (
     <Route path='/' component={Main}>
         <IndexRoute component={Home} />
-        <Route path="*" component={PageNotFound}></Route>
     </Route>
 );
 

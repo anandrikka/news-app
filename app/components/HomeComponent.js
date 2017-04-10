@@ -117,7 +117,7 @@ class HomeComponent extends Component {
       return (
         <div>
           <div className="no-results">
-            <img src={noResultsImg} />  
+            <h2>Server Issue !!</h2>
           </div>  
           <br />
           {

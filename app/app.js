@@ -9,7 +9,7 @@ import css from './assets/styles/scss/app.scss';
 
 const provider = (
     <Provider store={ store }>
-        <Router history={ hashHistory }>
+        <Router history={ browserHistory }>
             { Routes }
         </Router>
     </Provider>
